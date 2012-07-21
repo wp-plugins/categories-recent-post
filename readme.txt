@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Nguyen Duc Manh
-Donate link: http://www.somihanquoc.vn/
-Tags: categories, posts, widget, checked categories post
+Donate link: http://casanova.vn/
+Tags: categories, posts, widget, checked categories post, categories recent posts
 Requires at least: 2.8
 Tested up to: 3.0
 Stable tag: 3.2
@@ -28,7 +28,7 @@ Features:
 4. Goto the Widget tab of the Presentation section and configure the widget.
 
 == Upgrade Notice ==
-Note that version 3.0 drops support for [Simple Post Thumbnails plugin](http://wordpress.org/extend/plugins/simple-post-thumbnails/) in favor of WP 2.9's built in post thumbnail functionality.
+This is the first version of SaoKimBranding
 
 == Screenshots ==
 
@@ -38,7 +38,7 @@ Note that version 3.0 drops support for [Simple Post Thumbnails plugin](http://w
 
 2.0
 * Updated to use the WP 2.8 widget API.
-* Added support for [Simple Post Thumbnails plugin](http://wordpress.org/extend/plugins/simple-post-thumbnails/).
+* Support thumbnail
 
 == Frequently Asked Questions ==
-Ask me by email
+Ask me by email contact@saokim.com.vn or contact@casanova.vn
