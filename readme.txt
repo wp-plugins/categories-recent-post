@@ -10,7 +10,7 @@ Add a widget that shows the most recent posts in checked categories
 
 == Description ==
 
-Categories Recent Posts Widget is a light widget designed to do one thing and do it well: display the most recent posts from checked  categories. See more about author of this plugin: http://casanova.vn
+Categories Recent Posts Widget is a light widget designed to do one thing and do it well: display the most recent posts from checked  categories. See more about author of this plugin: http://casanova.vn or http://www.saokim.com.vn
 
 Features:
 
