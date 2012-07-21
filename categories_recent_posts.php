@@ -25,7 +25,7 @@ if ( function_exists('add_image_size') )
 
 class Category_Recent_posts extends WP_Widget {
 	function Category_Recent_posts() {
-		parent::WP_Widget(false, $name='Categories Recent Post');
+		parent::WP_Widget(false, $name='Categories Recent Post',array( 'description' =>'Display recent posts from checked categories'));
 	}
 	
 	function widget($args, $instance)
@@ -33,27 +33,25 @@ class Category_Recent_posts extends WP_Widget {
 		// outputs the content of the widget
 		extract( $args );
 		$sizes = get_option('sk_cat_post_thumb_sizes');
-		
-		// If not title, use the "Recent Post in categories".
-		if( !$instance["title"] ) {
-			$instance["title"] = "Recent Post in categories";
-	  	}
+
 		echo $before_widget;
 			echo $before_title . $instance["title"]. $after_title;
 			//Noi dung widget
 			$catArr	=	$instance["selected_cats"];
 			$strCat	=	"";
-			foreach($catArr as $value){
-				$strCat	.=	$value.",";		
+			if(!empty($catArr))
+			{
+				foreach($catArr as $value){
+					$strCat	.=	$value.",";		
+				}
+				$strCat	=	substr($strCat,0,strlen($strCat)-1);
 			}
-			$strCat	=	substr($strCat,0,strlen($strCat)-1);
 			
 			$valid_sort_orders = array('date', 'title', 'comment_count', 'random');
 			 if ( in_array($instance['sort_by'], $valid_sort_orders) ) {
 				$sort_by = $instance['sort_by'];
 				$sort_order = (bool) $instance['asc_sort_order'] ? 'ASC' : 'DESC';
 			  } else {
-				// by default, display latest first
 				$sort_by = 'date';
 				$sort_order = 'DESC';
 			 }
@@ -64,7 +62,6 @@ class Category_Recent_posts extends WP_Widget {
 				"&orderby=" . $sort_by .
 				"&order=" . $sort_order
 			  );
-			
 			// Post list
 			echo "<ul>\n";
 			
@@ -81,14 +78,18 @@ class Category_Recent_posts extends WP_Widget {
 							has_post_thumbnail()
 						) :
 					?>
-						<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-						<?php the_post_thumbnail( 'cat_post_thumb_size'.$this->id, 'class=imgleft' ); ?>
-						</a>
-						 <a class="post-title" href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
-						 <br clear="all" /><br />
-					<?php else:?>     
-					 <a class="post-title" href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
+					<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'cat_post_thumb_size'.$this->id, 'class=post-list-img' ); ?></a>
 					<?php endif; ?>
+					<a class="post-title" href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
+					<?php
+						if($instance['show_excerpt']){
+							$new_excerpt_length = create_function('$length', "return " . $instance["excerpt_length"] . ";");
+							if ( $instance["excerpt_length"] > 0 ){
+								add_filter('excerpt_length', $new_excerpt_length);
+							}	
+							the_excerpt();
+						}
+					?>
 				</li>
 			<?php
 			}
@@ -146,24 +147,33 @@ class Category_Recent_posts extends WP_Widget {
 			</label>
 		</p>
 		<p>
-			<label>
 				<?php _e('Thumbnail dimensions'); ?>:<br />
 				<label for="<?php echo $this->get_field_id("thumb_w"); ?>">
-					W: <input class="widefat" style="width:40%;" type="text" id="<?php echo $this->get_field_id("thumb_w"); ?>" name="<?php echo $this->get_field_name("thumb_w"); ?>" value="<?php echo $instance["thumb_w"]; ?>" />
-				</label>
+					W: <input class="widefat" style="width:40%;" type="text" id="<?php echo $this->get_field_id("thumb_w"); ?>" name="<?php echo $this->get_field_name("thumb_w"); ?>" value="<?php echo $instance["thumb_w"]; ?>" /></label>
+				
 				
 				<label for="<?php echo $this->get_field_id("thumb_h"); ?>">
-					H: <input class="widefat" style="width:40%;" type="text" id="<?php echo $this->get_field_id("thumb_h"); ?>" name="<?php echo $this->get_field_name("thumb_h"); ?>" value="<?php echo $instance["thumb_h"]; ?>" />
-				</label>
-			</label>
+					H: <input class="widefat" style="width:40%;" type="text" id="<?php echo $this->get_field_id("thumb_h"); ?>" name="<?php echo $this->get_field_name("thumb_h"); ?>" value="<?php echo $instance["thumb_h"]; ?>" /></label>
+				
 		</p>
 		<?php endif; ?>
+        
+        <p>
+			<label for="<?php echo $this->get_field_id("show_excerpt"); ?>">
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("show_excerpt"); ?>" name="<?php echo $this->get_field_name("show_excerpt"); ?>"<?php checked( (bool) $instance["show_excerpt"], true ); ?> />
+				<?php _e( 'Show excerpt' ); ?>
+			</label>
+		</p>
+        <p>
+        	<label for="<?php echo $this->get_field_id("excerpt_length"); ?>">
+					Excerpt length: <input class="widefat" style="width:20%;" type="text" id="<?php echo $this->get_field_id("excerpt_length"); ?>" name="<?php echo $this->get_field_name("excerpt_length"); ?>" value="<?php echo $instance["excerpt_length"]; ?>" /></label>
+        </p>
          
         <?php
 				echo '			<b>Recent post in categories</b><hr />'; 
 				echo '			<ul id="categorychecklist" class="list:category categorychecklist form-no-clear" style="list-style-type: none; margin-left: 5px; padding-left: 0px; margin-bottom: 20px;">';
 
-				saokim_wp_category_checklist(0, 0, $selected_cats, false); 
+				saokim_wp_category_checklist(0, 0, $selected_cats, false);  
 				echo '			</ul>'; 
 	}
 

@@ -14,7 +14,8 @@ Categories Recent Posts Widget is a light widget designed to do one thing and do
 
 Features:
 
-* [NEW] Option to change ordering of posts.
+* [NEW] Can anable or disable excerpt, set exerpt length
+* Option to change ordering of posts.
 * Support for displaying thumbnail images via WP 2.9's new post thumbnail feature.
 * Set how many posts to show.
 * Can checked categories that posts come from
