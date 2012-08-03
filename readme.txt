@@ -14,7 +14,9 @@ Categories Recent Posts Widget is a light widget designed to do one thing and do
 
 Features:
 
-* [NEW] Can anable or disable excerpt, set exerpt length
+* [NEW] Can anable timthumb to resize image or disable it
+* [NEW] Can anable or disable post date, comment number
+* [NEW] Can anable or disable excerpt, can set exerpt length
 * Option to change ordering of posts.
 * Support for displaying thumbnail images via WP 2.9's new post thumbnail feature.
 * Set how many posts to show.
@@ -29,7 +31,8 @@ Features:
 4. Goto the Widget tab of the Presentation section and configure the widget.
 
 == Upgrade Notice ==
-This is the first version of SaoKimBranding
+Add timthumb to resize image, add post date, comment number
+
 
 == Screenshots ==
 

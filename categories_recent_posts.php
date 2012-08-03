@@ -33,6 +33,12 @@ class Category_Recent_posts extends WP_Widget {
 		// outputs the content of the widget
 		extract( $args );
 		$sizes = get_option('sk_cat_post_thumb_sizes');
+		
+		if($instance['use_timthumb']){
+			//++++ Create cache and CHMOD to 777
+			$plugin_url	=	plugins_url();
+			
+		}
 
 		echo $before_widget;
 			echo $before_title . $instance["title"]. $after_title;
@@ -78,9 +84,31 @@ class Category_Recent_posts extends WP_Widget {
 							has_post_thumbnail()
 						) :
 					?>
-					<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'cat_post_thumb_size'.$this->id, 'class=post-list-img' ); ?></a>
+                     <?php if($instance['use_timthumb']):?> <!-- Check use timthumb -->
+					  	<a href="<?php the_permalink(); ?>">
+							<?php 
+								$w	=	$instance['thumb_w']?$instance['thumb_w']:50;
+								$h	=	$instance['thumb_h']?$instance['thumb_h']:50;
+								$thumb_url = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+							?>
+                            <img src="<?php echo plugins_url(); ?>/categories-recent-posts/timthumb.php?src=<?php echo $thumb_url; ?>&w=<?php echo $w; ?>&h=<?php echo $h; ?>"  />
+                        </a>
+                      <?php else:?>
+                      	<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'cat_post_thumb_size'.$this->id, 'class=post-list-img' ); ?></a>
+                      <?php endif; ?><!-- End check timthumb -->
+					
 					<?php endif; ?>
+                    
 					<a class="post-title" href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
+					
+					<?php if($instance['show_comment_num']):?>
+						<div class="comment-num"><?php comments_number( '(No Comments)', '(1 Comment)', '(% Comments)' ); ?></div>
+					<?php endif;?>
+                    
+                    <?php if($instance['show_post_date']):?>
+						<div class="post-date">Date posted: <?php the_date(); ?></div>
+					<?php endif;?>
+                    
 					<?php
 						if($instance['show_excerpt']){
 							$new_excerpt_length = create_function('$length', "return " . $instance["excerpt_length"] . ";");
@@ -93,10 +121,11 @@ class Category_Recent_posts extends WP_Widget {
 				</li>
 			<?php
 			}
-			
+			wp_reset_query();
 			echo "</ul>\n";
 			
 		echo $after_widget;
+		remove_filter('excerpt_length', $new_excerpt_length);
 	}
 	
 	function form($instance) {
@@ -146,7 +175,7 @@ class Category_Recent_posts extends WP_Widget {
 				<?php _e( 'Show post thumbnail' ); ?>
 			</label>
 		</p>
-		<p>
+        <p>
 				<?php _e('Thumbnail dimensions'); ?>:<br />
 				<label for="<?php echo $this->get_field_id("thumb_w"); ?>">
 					W: <input class="widefat" style="width:40%;" type="text" id="<?php echo $this->get_field_id("thumb_w"); ?>" name="<?php echo $this->get_field_name("thumb_w"); ?>" value="<?php echo $instance["thumb_w"]; ?>" /></label>
@@ -156,6 +185,12 @@ class Category_Recent_posts extends WP_Widget {
 					H: <input class="widefat" style="width:40%;" type="text" id="<?php echo $this->get_field_id("thumb_h"); ?>" name="<?php echo $this->get_field_name("thumb_h"); ?>" value="<?php echo $instance["thumb_h"]; ?>" /></label>
 				
 		</p>
+        <p>
+            <label for="<?php echo $this->get_field_id("use_timthumb"); ?>" title="Please CHMOD /wp-content/plugins/categories-recent-posts/cache   to 0777">
+                <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("use_timthumb"); ?>" name="<?php echo $this->get_field_name("use_timthumb"); ?>"<?php checked( (bool) $instance["use_timthumb"], true ); ?> />
+                <?php _e( 'Use timthumb to resize image' ); ?>
+            </label>
+        </p>
 		<?php endif; ?>
         
         <p>
@@ -168,6 +203,19 @@ class Category_Recent_posts extends WP_Widget {
         	<label for="<?php echo $this->get_field_id("excerpt_length"); ?>">
 					Excerpt length: <input class="widefat" style="width:20%;" type="text" id="<?php echo $this->get_field_id("excerpt_length"); ?>" name="<?php echo $this->get_field_name("excerpt_length"); ?>" value="<?php echo $instance["excerpt_length"]; ?>" /></label>
         </p>
+        
+        <p>
+			<label for="<?php echo $this->get_field_id("show_comment_num"); ?>">
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("show_comment_num"); ?>" name="<?php echo $this->get_field_name("show_comment_num"); ?>"<?php checked( (bool) $instance["show_comment_num"], true ); ?> />
+				<?php _e( 'Show number of comment' ); ?>
+			</label>
+		</p>
+        <p>
+			<label for="<?php echo $this->get_field_id("show_post_date"); ?>">
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("show_post_date"); ?>" name="<?php echo $this->get_field_name("show_post_date"); ?>"<?php checked( (bool) $instance["show_post_date"], true ); ?> />
+				<?php _e( 'Show post date' ); ?>
+			</label>
+		</p>
          
         <?php
 				echo '			<b>Recent post in categories</b><hr />'; 
@@ -177,7 +225,7 @@ class Category_Recent_posts extends WP_Widget {
 				echo '			</ul>'; 
 	}
 
-	function update($new_instance, $old_instance) {
+	function update($new_instance, $old_instance) { 
 		// processes widget options to be saved
 		$instance = $old_instance;
 		/*$instance['title'] 		= strip_tags($new_instance['title']);*/
