@@ -69,7 +69,7 @@ class Category_Recent_posts extends WP_Widget {
 				"&order=" . $sort_order
 			  );
 			// Post list
-			echo "<ul>\n";
+			echo '<ul class="'.$instance["class"].'">';
 			
 			while ( $cat_posts->have_posts() )
 			{
@@ -122,7 +122,7 @@ class Category_Recent_posts extends WP_Widget {
 			<?php
 			}
 			wp_reset_query();
-			echo "</ul>\n";
+			echo "</ul>";
 			
 		echo $after_widget;
 		remove_filter('excerpt_length', $new_excerpt_length);
@@ -136,6 +136,12 @@ class Category_Recent_posts extends WP_Widget {
 			<label for="<?php echo $this->get_field_id("title"); ?>">
 				<?php _e( 'Title' ); ?>:
 				<input class="widefat" id="<?php echo $this->get_field_id("title"); ?>" name="<?php echo $this->get_field_name("title"); ?>" type="text" value="<?php echo esc_attr($instance["title"]); ?>" />
+			</label>
+		</p>
+        <p>
+			<label for="<?php echo $this->get_field_id("class"); ?>">
+				<?php _e( 'Class' ); ?>:
+				<input class="widefat" id="<?php echo $this->get_field_id("class"); ?>" name="<?php echo $this->get_field_name("class"); ?>" type="text" value="<?php echo esc_attr($instance["class"]); ?>" />
 			</label>
 		</p>
         <p>
