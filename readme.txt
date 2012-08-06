@@ -28,7 +28,8 @@ Features:
 1. Download the plugin.
 2. Upload it to the plugins folder of your blog.
 3. Goto the Plugins section of the WordPress admin and activate the plugin.
-4. Goto the Widget tab of the Presentation section and configure the widget.
+4. (if use timthumb) please goto  /wp-content/plugins/categories-recent-posts/  and create new folder "cache" and CHMOD to 0777 
+5. Goto the Widget tab of the Presentation section and configure the widget.
 
 == Upgrade Notice ==
 Add timthumb to resize image, add post date, comment number
