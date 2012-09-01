@@ -5,11 +5,11 @@
  */
 /*
 Plugin Name: Categories Recent Post
-Plugin URI: http://saokim.com.vn
+Plugin URI: http://blog.casanova.vn/plugin-display-recent-posts-in-checked-categories/
 Description: A widget that can display posts from checked categories and thumbnail image if post have <strong>set featured image</strong>
 Author: Nguyen Duc Manh
 Version: 1.0
-Author URI: http://saokim.com.vn
+Author URI: http://casanova.vn
 */
 
 // Register thumbnail sizes.

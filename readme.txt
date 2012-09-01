@@ -1,5 +1,5 @@
-=== Plugin Name ===
-Contributors: Nguyen Duc Manh
+=== Posts in checked categories ===
+Contributors: drmen8x
 Donate link: http://casanova.vn/
 Tags: categories, posts, widget, checked categories post, categories recent posts
 Requires at least: 2.8
@@ -10,7 +10,7 @@ Add a widget that shows the most recent posts in checked categories
 
 == Description ==
 
-Categories Recent Posts Widget is a light widget designed to do one thing and do it well: display the most recent posts from checked  categories. See more about author of this plugin: http://casanova.vn or http://www.saokim.com.vn
+Categories Recent Posts Widget is a light widget designed to do one thing and do it well: display the most recent posts from checked  categories. 
 
 Features:
 
@@ -28,7 +28,7 @@ Features:
 1. Download the plugin.
 2. Upload it to the plugins folder of your blog.
 3. Goto the Plugins section of the WordPress admin and activate the plugin.
-4. (if use timthumb) please goto  /wp-content/plugins/categories-recent-posts/  and create new folder "cache" and CHMOD to 0777 
+4. (if use timthumb) please goto  /wp-content/plugins/categories-recent-posts/  and create new folder "cache" and CHMOD it to 0777 
 5. Goto the Widget tab of the Presentation section and configure the widget.
 
 == Upgrade Notice ==
@@ -46,4 +46,4 @@ Add timthumb to resize image, add post date, comment number
 * Support thumbnail
 
 == Frequently Asked Questions ==
-Ask me by email contact@saokim.com.vn or contact@casanova.vn
+Ask me by email contact@casanova.vn
